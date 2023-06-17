@@ -5,6 +5,112 @@
 #include "./state.hpp"
 #include "../config.hpp"
 
+#define King 1400
+#define Queen 900
+#define Rook 500
+#define Bishop 350
+#define Knight 330
+#define Pawn 100
+
+//White
+const int wKingTable[6][5] = {
+    -30,-40,-50,-40,-30,
+    -30,-40,-50,-40,-30,
+    -20,-30,-40,-30,-20,
+    -10,-20,-20,-20,-10,
+     20,  0,  0,  0, 20,
+     20, 20,  0, 20, 20
+};
+const int wQueenTable[6][5] = {
+    -20,-10, -5,-10,-20,
+    -10,  0,  0,  0,-10,
+    -10,  0,  5,  0,-10,
+      0,  5,  5,  0, -5,
+    -10,  5,  5,  0,-10,
+    -20,-10, -5,-10,-20
+};
+const int wRookTable[6][5] = {
+      0,  0,  0,  0,  0,
+      5, 10, 10, 10,  5,
+     -5,  0,  0,  0, -5,
+     -5,  0,  0,  0, -5,
+     -5,  0,  0,  0, -5,
+      0,  0,  5,  0,  0
+};
+const int wBishopTable[6][5] = {
+    -20,-10,-10,-10,-20,
+    -10,  0,  0,  0,-10,
+    -10,  5, 10,  5,-10,
+    -10, 10, 10, 10,-10,
+    -10,  5,  0,  5,-10,
+    -20,-10,-10,-10,-20
+};
+const int wKnightTable[6][5] = {
+    -50,-40,-30,-40,-50,
+    -30,  5, 15,  5,-30,
+    -30, 10, 20, 10,-30,
+    -30,  5, 15,  5,-30,
+    -40,  0,  5,  0,-40,
+    -50,-40,-30,-40,-50
+};
+const int wPawnTable[6][5] = {
+     0,  0,  0,  0,  0,
+    50, 50, 50, 50, 50,
+    10, 20, 30, 20, 10,
+     5, -5,  0, -5,  5,
+     5, 10,-20, 10,  5,
+     0,  0,  0,  0,  0
+};
+
+// Black
+const int bKingTable[6][5] = {
+     20, 30,  0, 30, 20,
+    -10,-20,-20,-20,-10,
+    -20,-30,-40,-30,-20,
+    -30,-40,-50,-40,-30,
+    -30,-40,-50,-40,-30,
+    -30,-40,-50,-40,-30
+};
+const int bQueenTable[6][5] = {
+    -20,-10, -5,-10,-20,
+    -10,  0,  0,  0,-10,
+      0,  0,  5,  0, -5,
+    -10,  5,  5,  0,-10,
+    -10,  0,  5,  0,-10,
+    -20,-10, -5,-10,-20
+};
+const int bRookTable[6][5] = {
+      0,  0,  5,  0,  0,
+     -5,  0,  0,  0, -5,
+     -5,  0,  0,  0, -5,
+     -5,  0,  0,  0, -5,
+      5, 10, 10, 10,  5,
+      0,  0,  0,  0,  0
+};
+const int bBishopTable[6][5] = {
+    -20,-10,-10,-10,-20,
+    -10,  5,  0,  5,-10,
+    -10, 10, 10, 10,-10,
+    -10,  5, 10,  5,-10,
+    -10,  0,  0,  0,-10,
+    -20,-10,-10,-10,-20
+};
+const int bKnightTable[6][5] = {
+    -50,-40,-30,-40,-50,
+    -40,-20,  5,-20,-40,
+    -30,  5, 15,  5,-30,
+    -30, 10, 15, 10,-30,
+    -40,-20,  0,-20,-40,
+    -50,-40,-30,-40,-50
+};
+const int bPawnTable[6][5] = {
+      0,  0,  0,  0,  0,
+      5, 10,-20, 10,  5,
+      5, 10, 25, 10,  5,
+     10, 20, 30, 20, 10,
+     50, 50, 50, 50, 50,
+      0,  0,  0,  0,  0
+};
 
 /**
  * @brief evaluate the state
@@ -13,7 +119,77 @@
  */
 int State::evaluate(){
   // [TODO] design your own evaluation function
-  return 0;
+  
+  int white_pt = 0;
+  int black_pt = 0;
+  int score;
+
+  for (int i = 0; i < 6; i++){
+    for (int j = 0; j < 5; j++){
+        if (board.board[0][i][j] == 1){
+          white_pt += Pawn;
+          white_pt += wPawnTable[i][j];
+        }
+        else if (board.board[0][i][j] == 2){
+          white_pt += Rook;
+          white_pt += wRookTable[i][j];
+        }
+        else if (board.board[0][i][j] == 3){
+          white_pt += Knight;
+          white_pt += wKnightTable[i][j];
+        }
+        else if (board.board[0][i][j] == 4){
+          white_pt += Bishop;
+          white_pt += wBishopTable[i][j];
+        }
+        else if (board.board[0][i][j] == 5){
+          white_pt += Queen;
+          white_pt += wQueenTable[i][j];
+        }
+        else if (board.board[0][i][j] == 6){
+          white_pt += King;
+          white_pt += wKingTable[i][j];
+        }
+    }
+  }
+
+  for (int i = 0; i < 6; i++){
+    for (int j = 0; j < 5; j++){
+        if (board.board[1][i][j] == 1){
+          black_pt += Pawn;
+          black_pt += bPawnTable[i][j];
+        }
+        else if (board.board[1][i][j] == 2){
+          black_pt += Rook;
+          black_pt += bRookTable[i][j];
+        }
+        else if (board.board[1][i][j] == 3){
+          black_pt += Knight;
+          black_pt += bKnightTable[i][j];
+        }
+        else if (board.board[1][i][j] == 4){
+          black_pt += Bishop;
+          black_pt += bBishopTable[i][j];
+        }
+        else if (board.board[1][i][j] == 5){
+          black_pt += Queen;
+          black_pt += bQueenTable[i][j];
+        }
+        else if (board.board[1][i][j] == 6){
+          black_pt += King;
+          black_pt += bKingTable[i][j];
+        }
+    }
+  }
+
+
+  if (player == 1)
+    score = black_pt - white_pt;
+  else 
+    score = white_pt - black_pt;
+
+  return score;
+  
 }
 
 
