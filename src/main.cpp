@@ -263,25 +263,25 @@ static std::string y_axis = "654321";
 static std::string x_axis = "ABCDE";
 
 void make_seperate_line(std::stringstream& ss){
-  ss << "â”œ";
+  ss << "¢u";
   for(int w=0; w<BOARD_W; w+=1){
     for(int h=0; h<PIECE_STR_LEN; h+=1)
-      ss << "â”€";
-    ss << "â”€â”€â”¼";
+      ss << "¢w";
+    ss << "¢w¢w¢q";
   }
-  ss << "â”€â”¼â”€â”€â”€â”¤\n";
+  ss << "¢w¢q¢w¢w¢w¢t\n";
 }
 void add_axis(std::stringstream& ss){
-  ss << "â”‚";
+  ss << "¢x";
   for(int w=0; w<BOARD_W; w+=1){
     for(int h=0; h<PIECE_STR_LEN/2; h+=1)
       ss << " ";
     ss << " " << x_axis[w] << " ";
     for(int h=0; h<PIECE_STR_LEN/2 - (PIECE_STR_LEN+1)%2; h+=1)
       ss << " ";
-    ss << "â”‚";
+    ss << "¢x";
   }
-  ss << " â”‚   â”‚\n";
+  ss << " ¢x   ¢x\n";
 }
 /**
  * @brief encode the output for command line output
@@ -291,17 +291,17 @@ void add_axis(std::stringstream& ss){
 std::string State::encode_output(){
   std::stringstream ss;
   int now_piece;
-  ss << "â”Œ";
+  ss << "¢z";
   for(int w=0; w<BOARD_W; w+=1){
     for(int h=0; h<PIECE_STR_LEN; h+=1)
-      ss << "â”€";
-    ss << "â”€â”€â”¬";
+      ss << "¢w";
+    ss << "¢w¢w¢s";
   }
-  ss << "â”€â”¬â”€â”€â”€â”\n";
+  ss << "¢w¢s¢w¢w¢w¢{\n";
   
   for(int i=0; i<BOARD_H; i+=1){
     for(int j=0; j<BOARD_W; j+=1){
-      ss << "â”‚ ";
+      ss << "¢x ";
       if((now_piece = this->board.board[0][i][j])){
         ss << std::string(PIECE_TABLE[0][now_piece]) << " ";
       }else if((now_piece = this->board.board[1][i][j])){
@@ -310,19 +310,19 @@ std::string State::encode_output(){
         ss << std::string(PIECE_TABLE[0][0]) << " ";
       }
     }
-    ss << "â”‚ â”‚ " << y_axis[i] << " â”‚\n";
+    ss << "¢x ¢x " << y_axis[i] << " ¢x\n";
     make_seperate_line(ss);
   }
   make_seperate_line(ss);
   add_axis(ss);
   
-  ss << "â””";
+  ss << "¢|";
   for(int w=0; w<BOARD_W; w+=1){
     for(int h=0; h<PIECE_STR_LEN; h+=1)
-      ss << "â”€";
-    ss << "â”€â”€â”´";
+      ss << "¢w";
+    ss << "¢w¢w¢r";
   }
-  ss << "â”€â”´â”€â”€â”€â”˜\n";
+  ss << "¢w¢r¢w¢w¢w¢}\n";
   return ss.str();
 }
 
@@ -456,21 +456,23 @@ int main(int argc, char** argv) {
       // If action is invalid.
       data = game.encode_output();
       std::cout << "Invalid Action\n";
-      std::cout << x_axis[action.first.second] << y_axis[action.first.first] << " â†’ " \
+      std::cout << x_axis[action.first.second] << y_axis[action.first.first] << " ¡÷ " \
                 << x_axis[action.second.second] << y_axis[action.second.first] << "\n";
       std::cout << data;
       log << "Invalid Action\n";
-      log << x_axis[action.first.second] << y_axis[action.first.first] << " â†’ " \
+      log << x_axis[action.first.second] << y_axis[action.first.first] << " ¡÷ " \
           << x_axis[action.second.second] << y_axis[action.second.first] << "\n";
       log << data;
+      game.player = !game.player;
+      game.game_state = WIN;
       break;
     }else{
       temp = game.next_state(action);
       std::cout << "Depth: " << total << std::endl;
-      std::cout << x_axis[action.first.second] << y_axis[action.first.first] << " â†’ " \
+      std::cout << x_axis[action.first.second] << y_axis[action.first.first] << " ¡÷ " \
                 << x_axis[action.second.second] << y_axis[action.second.first] << "\n";
       log << "Depth: " << total << std::endl;
-      log << x_axis[action.first.second] << y_axis[action.first.first] << " â†’ " \
+      log << x_axis[action.first.second] << y_axis[action.first.first] << " ¡÷ " \
           << x_axis[action.second.second] << y_axis[action.second.first] << "\n";
     }
     game = *temp;
@@ -491,10 +493,10 @@ int main(int argc, char** argv) {
           }
         }
       }
-      if(white_material>black_material){
+      if(white_material<black_material){
         game.player = 1;
         game.game_state = WIN;
-      }else if(white_material<black_material){
+      }else if(white_material>black_material){
         game.player = 0;
         game.game_state = WIN;
       }else{
