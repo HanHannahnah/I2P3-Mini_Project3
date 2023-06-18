@@ -8,5 +8,9 @@
  */
 class Minimax{
 public:
-  static Move get_move(State *state, int depth);
+  Move best_move;
+  int highest_value;
+  int vis[];
+  static Move get_move(State *state, int depth, Minimax a);
+  int minimax(State& state, int depth, bool maximizingPlayer);
 };
