@@ -20,7 +20,7 @@ Move Minimax::get_move(State *state, int depth, Minimax a){
         state->get_legal_actions();
 
     auto actions = state->legal_actions;
-    int num = (rand()+depth)%actions.size();
+    int num = (rand()+100)%actions.size();
     Move action = actions[num];
 
     while (1){
