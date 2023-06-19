@@ -44,16 +44,21 @@ void write_valid_spot(std::ofstream& fout) {
   Alphabeta a;
   a.highest_value = INT_MIN;
 
-  while(true) {
-    // Choose a random spot.
-    auto move = Alphabeta::get_move(root, 3, a);
+  if(!root->legal_actions.size())
+      root->get_legal_actions();
+
+  for (auto s : root->legal_actions){
+    auto move = Alphabeta::get_move(root, s, 3, a);
     fout << move.first.first << " " << move.first.second << " "\
-         << move.second.first << " " << move.second.second << std::endl;
+        << move.second.first << " " << move.second.second << std::endl;
     
     // Remember to flush the output to ensure the last action is written to file.
     fout.flush();
-    break;
+    //break;
   }
+  
+  
+
 }
 
 

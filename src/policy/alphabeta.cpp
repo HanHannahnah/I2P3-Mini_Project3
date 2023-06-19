@@ -13,31 +13,13 @@ using namespace std;
  * @param depth You may need this for other policy
  * @return Move 
  */
-Move Alphabeta::get_move(State *state, int depth, Alphabeta a){
-  if(!state->legal_actions.size())
-    state->get_legal_actions();
+Move Alphabeta::get_move(State *state, Move m, int depth, Alphabeta a){
 
-  auto actions = state->legal_actions;
-    int num = (rand()+100)%actions.size();
-    Move action = actions[num];
-
-    while (1){
-        if (a.vis[num] == 1){
-            num = (rand()+depth)%actions.size();
-            action = actions[num];
-            continue;
-        }
-        else{
-            a.vis[num] = 1;
-            break;
-        }
-    }
-
-    State* s = state->next_state(action);
-    int temp = a.alphabeta(*s, depth - 1, INT_MIN, INT_MAX, false);
+    State* s = state->next_state(m);
+    int temp = a.alphabeta(*s, depth , INT_MIN, INT_MAX, false);
 
     if (temp > a.highest_value){
-        a.best_move = action;
+        a.best_move = m;
         a.highest_value = temp;
     }
 
