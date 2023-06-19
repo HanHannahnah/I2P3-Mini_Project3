@@ -5,11 +5,11 @@
 #include "./state.hpp"
 #include "../config.hpp"
 
-#define King 1400
+#define King 9000
 #define Queen 900
 #define Rook 500
-#define Bishop 350
-#define Knight 330
+#define Bishop 300
+#define Knight 300
 #define Pawn 100
 
 //White
