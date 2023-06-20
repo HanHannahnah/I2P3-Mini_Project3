@@ -4,7 +4,7 @@
 
 #include "../config.hpp"
 #include "../state/state.hpp"
-#include "../policy/Alphabeta.hpp"
+#include "../policy/alphabeta.hpp"
 
 
 State* root;
@@ -50,10 +50,7 @@ void write_valid_spot(std::ofstream& fout) {
   int depth = 4;
 
   //while(true) {
-    // Choose a random spot.
-
     for (auto m : root->legal_actions){
-      //auto move = root->legal_actions[(rand()+depth)%(root->legal_actions).size()];
       auto move = Alphabeta::get_move(root, m, depth, a);
       fout << move.first.first << " " << move.first.second << " "\
           << move.second.first << " " << move.second.second << std::endl;

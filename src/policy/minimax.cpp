@@ -5,7 +5,7 @@
 using namespace std;
 
 #include "../state/state.hpp"
-#include "./Minimax.hpp"
+#include "./minimax.hpp"
 
 
 /**

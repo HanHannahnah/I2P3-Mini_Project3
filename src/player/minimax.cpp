@@ -45,12 +45,10 @@ void write_valid_spot(std::ofstream& fout) {
   a.highest_value = INT_MIN;
 
   while(true) {
-    // Choose a random spot.
     auto move = Minimax::get_move(root, 3, a);
     fout << move.first.first << " " << move.first.second << " "\
          << move.second.first << " " << move.second.second << std::endl;
     
-    // Remember to flush the output to ensure the last action is written to file.
     fout.flush();
     break;
   }

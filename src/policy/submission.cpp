@@ -3,7 +3,7 @@
 using namespace std;
 
 #include "../state/state.hpp"
-#include "./Alphabeta.hpp"
+#include "./submission.hpp"
 
 
 /**
@@ -13,10 +13,10 @@ using namespace std;
  * @param depth You may need this for other policy
  * @return Move 
  */
-Move Alphabeta::get_move(State *state, Move m, int depth, Alphabeta a){
+Move Submission::get_move(State *state, Move m, int depth, Submission a){
 
     State* s = state->next_state(m);
-    int temp = a.alphabeta(*s, depth , INT_MIN, INT_MAX, false);
+    int temp = a.submission(*s, depth , INT_MIN, INT_MAX, false);
 
     if (temp >= a.highest_value){
         a.best_move = m;
@@ -26,7 +26,7 @@ Move Alphabeta::get_move(State *state, Move m, int depth, Alphabeta a){
     return a.best_move;
 }
 
-int Alphabeta::alphabeta(State& state, int depth, int alpha, int beta, bool maximizingPlayer){
+int Submission::submission(State& state, int depth, int alpha, int beta, bool maximizingPlayer){
 
     if (depth == 0 || state.legal_actions.size() == 0)
         return state.evaluate();
@@ -36,7 +36,7 @@ int Alphabeta::alphabeta(State& state, int depth, int alpha, int beta, bool maxi
 
         for (auto next_action : state.legal_actions){
             State* s = state.next_state(next_action);
-            value = max(value, alphabeta(*s, depth - 1, alpha, beta, false));
+            value = max(value, submission(*s, depth - 1, alpha, beta, false));
 
             alpha = max(alpha, value);
             if (alpha >= beta)
@@ -50,7 +50,7 @@ int Alphabeta::alphabeta(State& state, int depth, int alpha, int beta, bool maxi
 
         for (auto next_action : state.legal_actions){
             State* s = state.next_state(next_action);
-            value = min(value, alphabeta(*s, depth - 1, alpha, beta, true));
+            value = min(value, submission(*s, depth - 1, alpha, beta, true));
         
             beta = min(beta, value);
             if (beta <= alpha)

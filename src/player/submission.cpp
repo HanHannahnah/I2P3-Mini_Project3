@@ -4,7 +4,7 @@
 
 #include "../config.hpp"
 #include "../state/state.hpp"
-#include "../policy/Alphabeta.hpp"
+#include "../policy/submission.hpp"
 
 
 State* root;
@@ -41,7 +41,7 @@ void read_board(std::ifstream& fin) {
  */
 void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.
-  Alphabeta a;
+  Submission a;
   a.highest_value = INT_MIN;
 
   if(!root->legal_actions.size())
@@ -54,7 +54,7 @@ void write_valid_spot(std::ofstream& fout) {
 
     for (auto m : root->legal_actions){
       //auto move = root->legal_actions[(rand()+depth)%(root->legal_actions).size()];
-      auto move = Alphabeta::get_move(root, m, depth, a);
+      auto move = Submission::get_move(root, m, depth, a);
       fout << move.first.first << " " << move.first.second << " "\
           << move.second.first << " " << move.second.second << std::endl;
     

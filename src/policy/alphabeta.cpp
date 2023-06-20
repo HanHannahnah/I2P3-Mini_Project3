@@ -3,7 +3,7 @@
 using namespace std;
 
 #include "../state/state.hpp"
-#include "./Alphabeta.hpp"
+#include "./alphabeta.hpp"
 
 
 /**
@@ -27,7 +27,6 @@ Move Alphabeta::get_move(State *state, Move m, int depth, Alphabeta a){
 }
 
 int Alphabeta::alphabeta(State& state, int depth, int alpha, int beta, bool maximizingPlayer){
-
     if (depth == 0 || state.legal_actions.size() == 0)
         return state.evaluate();
 
@@ -42,7 +41,6 @@ int Alphabeta::alphabeta(State& state, int depth, int alpha, int beta, bool maxi
             if (alpha >= beta)
                 break;
         }
-
         return alpha;
     }
     else {
@@ -56,8 +54,6 @@ int Alphabeta::alphabeta(State& state, int depth, int alpha, int beta, bool maxi
             if (beta <= alpha)
                 break;
         }
-
         return beta;
     }
-
 }
