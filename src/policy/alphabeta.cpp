@@ -18,7 +18,7 @@ Move Alphabeta::get_move(State *state, Move m, int depth, Alphabeta a){
     State* s = state->next_state(m);
     int temp = a.alphabeta(*s, depth , INT_MIN, INT_MAX, false);
 
-    if (temp > a.highest_value){
+    if (temp >= a.highest_value){
         a.best_move = m;
         a.highest_value = temp;
     }
@@ -43,7 +43,7 @@ int Alphabeta::alphabeta(State& state, int depth, int alpha, int beta, bool maxi
                 break;
         }
 
-        return value;
+        return alpha;
     }
     else {
         int value = INT_MAX;
@@ -57,7 +57,7 @@ int Alphabeta::alphabeta(State& state, int depth, int alpha, int beta, bool maxi
                 break;
         }
 
-        return value;
+        return beta;
     }
 
 }

@@ -19,7 +19,7 @@ const int wKingTable[6][5] = {
     -20,-30,-40,-30,-20,
     -10,-20,-20,-20,-10,
      20,  0,  0,  0, 20,
-     20, 20,  0, 20, 20
+     20, 20,  0, 20, 50
 };
 const int wQueenTable[6][5] = {
     -20,-10, -5,-10,-20,
@@ -30,7 +30,7 @@ const int wQueenTable[6][5] = {
     -20,-10, -5,-10,-20
 };
 const int wRookTable[6][5] = {
-      0,  0,  0,  0,  0,
+      0,  0,  0,  5,  0,
       5, 10, 10, 10,  5,
      -5,  0,  0,  0, -5,
      -5,  0,  0,  0, -5,
@@ -64,7 +64,7 @@ const int wPawnTable[6][5] = {
 
 // Black
 const int bKingTable[6][5] = {
-     20, 30,  0, 30, 20,
+     50, 30,  0, 30, 20,
     -10,-20,-20,-20,-10,
     -20,-30,-40,-30,-20,
     -30,-40,-50,-40,-30,
@@ -85,7 +85,7 @@ const int bRookTable[6][5] = {
      -5,  0,  0,  0, -5,
      -5,  0,  0,  0, -5,
       5, 10, 10, 10,  5,
-      0,  0,  0,  0,  0
+      0,  5,  0,  0,  0
 };
 const int bBishopTable[6][5] = {
     -20,-10,-10,-10,-20,
@@ -122,7 +122,8 @@ int State::evaluate(){
   
   int white_pt = 0;
   int black_pt = 0;
-  int score;
+  int score = 0;
+  Point wking, bking;
 
   for (int i = 0; i < 6; i++){
     for (int j = 0; j < 5; j++){
@@ -147,6 +148,8 @@ int State::evaluate(){
           white_pt += wQueenTable[i][j];
         }
         else if (board.board[0][i][j] == 6){
+          wking.first = i;
+          wking.second = j;
           white_pt += King;
           white_pt += wKingTable[i][j];
         }
@@ -176,17 +179,61 @@ int State::evaluate(){
           black_pt += bQueenTable[i][j];
         }
         else if (board.board[1][i][j] == 6){
+          bking.first = i;
+          bking.second = j;
           black_pt += King;
           black_pt += bKingTable[i][j];
         }
     }
   }
+/*
+  if(!legal_actions.size())
+      get_legal_actions();
 
+  //bool king_is_threaten = false;
+  if (player == 1){
+    for (auto x : legal_actions){
+      if (x.second == wking){
+        score -= 9000;
+        break;
+      }
+    }
+  }
+  else {
+    for (auto x : legal_actions){
+      if (x.second == bking){
+        score -= 9000;
+        break;
+      }
+    }
+  }*/
+  /*State temp_s = State(board, 1-player);
+  if(!temp_s.legal_actions.size())
+      temp_s.get_legal_actions();
 
-  if (player == 1)
-    score = black_pt - white_pt;
-  else 
-    score = white_pt - black_pt;
+  //bool king_is_threaten = false;
+  if (temp_s.player == 1){
+    for (auto x : temp_s.legal_actions){
+      if (x.second == wking){
+        score -= 9000;
+        break;
+      }
+    }
+  }
+  else {
+    for (auto x : temp_s.legal_actions){
+      if (x.second == bking){
+        score -= 9000;
+        break;
+      }
+    }
+  }*/
+  
+
+  if (player == 0)
+    score += white_pt - black_pt;
+  else
+    score += black_pt - white_pt;
 
   return score;
   

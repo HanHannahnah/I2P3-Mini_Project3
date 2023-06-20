@@ -47,17 +47,22 @@ void write_valid_spot(std::ofstream& fout) {
   if(!root->legal_actions.size())
       root->get_legal_actions();
 
-  for (auto s : root->legal_actions){
-    auto move = Alphabeta::get_move(root, s, 3, a);
-    fout << move.first.first << " " << move.first.second << " "\
-        << move.second.first << " " << move.second.second << std::endl;
+  int depth = 4;
+
+  //while(true) {
+    // Choose a random spot.
+
+    for (auto m : root->legal_actions){
+      //auto move = root->legal_actions[(rand()+depth)%(root->legal_actions).size()];
+      auto move = Alphabeta::get_move(root, m, depth, a);
+      fout << move.first.first << " " << move.first.second << " "\
+          << move.second.first << " " << move.second.second << std::endl;
     
-    // Remember to flush the output to ensure the last action is written to file.
-    fout.flush();
-    //break;
-  }
-  
-  
+      fout.flush();
+    }
+
+    //depth++;
+  //}
 
 }
 
